@@ -38,7 +38,7 @@ void FT6336U::begin(void) {
         Wire.begin();
     }
 #else
-    Wire.begin();
+    Wire1.begin();
 #endif
     // Int Pin Configuration
     pinMode(int_n, INPUT);
@@ -252,14 +252,14 @@ uint8_t FT6336U::readByte(uint8_t addr) {
     uint8_t rdData = 0;
     uint8_t rdDataCount;
     do {
-        Wire.beginTransmission(I2C_ADDR_FT6336U);
-        Wire.write(addr);
-        Wire.endTransmission(false); // Restart
+        Wire1.beginTransmission(I2C_ADDR_FT6336U);
+        Wire1.write(addr);
+        Wire1.endTransmission(false); // Restart
         delay(10);
-        rdDataCount = Wire.requestFrom(I2C_ADDR_FT6336U, 1);
+        rdDataCount = Wire1.requestFrom(I2C_ADDR_FT6336U, 1);
     } while(rdDataCount == 0);
-    while(Wire.available()) {
-        rdData = Wire.read();
+    while(Wire1.available()) {
+        rdData = Wire1.read();
     }
     return rdData;
 
@@ -270,8 +270,8 @@ void FT6336U::writeByte(uint8_t addr, uint8_t data) {
     DEBUG_PRINT(addr, HEX)
     DEBUG_PRINT(" -> 0x") DEBUG_PRINTLN(data, HEX)
 
-    Wire.beginTransmission(I2C_ADDR_FT6336U);
-    Wire.write(addr);
-    Wire.write(data);
-    Wire.endTransmission();
+    Wire1.beginTransmission(I2C_ADDR_FT6336U);
+    Wire1.write(addr);
+    Wire1.write(data);
+    Wire1.endTransmission();
 }
